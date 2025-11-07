@@ -67,7 +67,7 @@ router.post('/login', async (req, res) => {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 // In production use strict; in development use lax for same-origin via proxy
-                sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 maxAge: 3600000, // 1 hour
                 path: '/'
             };
