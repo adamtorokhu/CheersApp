@@ -66,10 +66,14 @@ router.post('/login', async (req, res) => {
             const cookieOptions = {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                // In production use strict; in development use lax for same-origin via proxy
+                // Allow cross-site cookies in production (frontend hosted on a different domain)
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 maxAge: 3600000, // 1 hour
-                path: '/'
+                path: '/',
+                // For custom domain setup, set domain if using subdomains
+                // Example: if frontend is app.yourdomain.com and backend is api.yourdomain.com,
+                // set domain to '.yourdomain.com' to share cookies
+                ...(process.env.COOKIE_DOMAIN && { domain: process.env.COOKIE_DOMAIN })
             };
 
             // In development, don't set secure flag (served over http)
@@ -83,7 +87,8 @@ router.post('/login', async (req, res) => {
                 httpOnly: cookieOptions.httpOnly,
                 sameSite: cookieOptions.sameSite,
                 secure: cookieOptions.secure,
-                path: cookieOptions.path
+                path: cookieOptions.path,
+                domain: cookieOptions.domain
             });
 
             res.json({
@@ -125,8 +130,9 @@ router.post('/logout', authenticateJWT, (req, res) => {
     const cookieOptions = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-        path: '/'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/',
+        ...(process.env.COOKIE_DOMAIN && { domain: process.env.COOKIE_DOMAIN })
     };
 
     // In development, don't set secure flag (localhost served over http)
