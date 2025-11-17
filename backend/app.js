@@ -55,7 +55,8 @@ const upload = multer({
 const defaultAllowedOrigins = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-    'https://cheersapp.onrender.com'  // Add your production frontend URL
+    'https://cheersapp.onrender.com',
+    'https://cheersapp-frontend.onrender.com'  // Add your production frontend URL
 ];
 // Allowlist from env (comma-separated). Example:
 // CORS_ORIGINS="https://your-frontend.example.com,https://your-app.netlify.app"
