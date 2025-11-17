@@ -3,7 +3,8 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+// Trust Render/Proxy to correctly mark secure connections for cookies
 app.set('trust proxy', 1);
 const mongodb = require('./services/mongodb');
 const multer  = require('multer');
@@ -51,16 +52,70 @@ const upload = multer({
 });
 
 // Configure CORS with security options
+const defaultAllowedOrigins = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://cheersapp.onrender.com'  // Add your production frontend URL
+];
+// Allowlist from env (comma-separated). Example:
+// CORS_ORIGINS="https://your-frontend.example.com,https://your-app.netlify.app"
+const envAllowedOrigins = (process.env.CORS_ORIGINS || '')
+    .split(',')
+    .map(o => o.trim())
+    .filter(Boolean);
+const allowedOrigins = new Set([...defaultAllowedOrigins, ...envAllowedOrigins]);
+
+// Helper: allow private-network IPs during development for Vite dev servers
+function isPrivateNetworkDevOrigin(origin) {
+    try {
+        // Only relax CORS for private networks and common Vite ports when backend runs in production
+        // so you can test from phone/laptop via local IP while the API is on Render.
+        // Patterns: 10.x.x.x, 192.168.x.x, 172.16-31.x.x with ports 5173-5175
+        const url = new URL(origin);
+        if (url.protocol !== 'http:') return false;
+        const host = url.hostname;
+        const port = Number(url.port || '80');
+        const isVitePort = port >= 5173;
+        const is10 = host.startsWith('10.');
+        const is192 = host.startsWith('192.168.');
+        const is172 = /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host);
+        return isVitePort && (is10 || is192 || is172);
+    } catch (e) {
+        return false;
+    }
+}
+
 app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'http://127.0.0.1:5173',
-        'http://127.0.0.1:5174',
-        'https://cc241054-10698.node.fhstp.cc',
-    ],
+    origin: function(origin, callback) {
+        // Log the origin for debugging
+        console.log('CORS request from origin:', origin);
+        
+        // Allow same-origin requests (no origin header) and tools
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.has(origin)) {
+            console.log('✓ Origin allowed:', origin);
+            return callback(null, true);
+        }
+        // Allow private LAN IP dev servers (e.g., http://172.20.10.4:5173)
+        if (isPrivateNetworkDevOrigin(origin)) {
+            console.log('✓ Private network dev origin allowed:', origin);
+            return callback(null, true);
+        }
+        // Optionally allow common preview hosts via wildcard-like check
+        const allowWildcard = [
+            '.vercel.app',
+            '.netlify.app',
+            '.github.io'
+        ];
+        if (allowWildcard.some(suffix => origin.endsWith(suffix))) {
+            console.log('✓ Wildcard origin allowed:', origin);
+            return callback(null, true);
+        }
+        console.log('✗ Origin BLOCKED:', origin);
+        return callback(new Error('CORS not allowed for origin: ' + origin));
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Set-Cookie'],
     credentials: true,
     optionsSuccessStatus: 200
