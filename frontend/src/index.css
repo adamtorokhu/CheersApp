@@ -1,0 +1,1757 @@
+/* ==========================================================================
+   Base styles and reset
+   ========================================================================== */
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #213547;
+  background-color: #ffffff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  min-height: 100%;
+  width: 100%;
+  padding-top: 50px;
+  margin: 0;
+}
+
+/* Basic typography */
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+/* Base button styles */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #e3e3e3;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* ==========================================================================
+   Layout and containers
+   ========================================================================== */
+
+.login-page-bg, .userform-page-bg {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.home-reviews-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*padding: 70px 0 20px 0;*/
+  min-height: 100vh;
+}
+
+.friend-page,
+.user-detail-flex,
+.review-detail-page {
+  padding-top: 70px;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: var(--color-primary);
+  padding: 8px 16px;
+  max-height: 50px;
+  box-sizing: border-box;
+}
+
+.navbar-logo {
+  width: 50px;
+  cursor: pointer;
+}
+
+.navbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-icons img {
+  width: 40px;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Review Components
+   ========================================================================== */
+
+.review-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: none;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  border-radius: 200%;
+  width: 60px;
+  height: 60px;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.review-card {
+  background: var(--color-primary);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-md);
+  padding: 20px;
+  margin: 16px;
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 32px);
+  gap: 40px;
+  color: var(--color-text-inverse);
+  position: relative;
+}
+
+.review-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+.review-pic {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+  max-width: 200px;
+  margin-bottom: 1rem;
+}
+
+.review-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+  padding: 0 10px;
+  min-width: 0;
+}
+
+.review-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+}
+
+.review-top-line {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.review-top-line .review-section {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: white;
+  font-weight: bold;
+}
+
+.review-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.review-header h1 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+  margin: 0;
+  font-weight: bold;
+  text-align: left;
+}
+
+.user-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1rem;
+  margin-left: auto;
+  padding-right: 8px;
+  font-weight: bold;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.beer-name {
+  font-size: 2.8rem;
+  font-weight: bold;
+}
+
+.beer-type {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rating img {
+  width: 30px;
+  height: 30px;
+}
+
+.rating-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.rating-max {
+  font-size: 2rem;
+  color: white;
+}
+
+.social {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.social-interactions {
+  display: flex;
+  gap: 20px;
+  margin-top: auto;
+}
+
+.interaction-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Review responsive design */
+@media (max-width: 768px) {
+  .review-card {
+    flex-direction: column;
+    padding: 16px;
+    margin: 12px auto;
+    width: calc(100% - 24px);
+  }
+
+  .home-reviews-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .review-pic {
+    width: 100%;
+    height: 300px;
+    max-width: none;
+  }
+
+  .review-main-row {
+    flex-direction: column !important;
+    width: 100%;
+  }
+
+  .review-header {
+    width: 100%;
+  }
+
+  .review-info {
+    width: 100%;
+    padding: 0;
+  }
+
+  .beer-name {
+    font-size: 2rem;
+  }
+
+  .social-interactions {
+    margin-top: 20px;
+  }
+}
+
+.review-section p {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: bold;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.review-actions button {
+  flex: 1;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.review-image-preview {
+  max-width: 200px;
+  margin-top: 10px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #a6a6a6;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  color: #FBB117;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #FBB117;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.home-btn-row {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.home-reviews-container a {
+  width: 100%;
+  text-decoration: none;
+}
+
+.error-message {
+  color: red;
+}
+
+.slider-value {
+  margin-left: 1em;
+}
+
+.image-upload-preview {
+  max-width: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+}
+
+/* ==========================================================================
+   Friend Components
+   ========================================================================== */
+
+.friends, .discover {
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin: 0 0.5rem;
+}
+
+.friends {
+  background-color: #FBB117;
+  border: 1px solid #000000;
+}
+
+.friends.active {
+  background-color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.discover {
+  background-color: #FBB117;
+  border: 1px solid #000000;
+}
+
+.discover.active {
+  background-color: #ffffff;
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.friends-section {
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: hidden;
+}
+
+.friends-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  flex-wrap: nowrap;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.friends-grid::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.friend-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #FBB117;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+  min-width: 220px;
+  flex: 0 0 auto;
+}
+
+.friend-card p {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.friend-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #d1d1d1;
+}
+
+.friend-profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0;
+  margin-right: 1rem;
+}
+
+.user-detail-profile-pic {
+  width: 150px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.friend-page {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.friend-page h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.friend-page ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.friend-list {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+/* ==========================================================================
+   Button Styles
+   ========================================================================== */
+
+.edit-button {
+  border: none;
+  border-radius: 200px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-button:hover {
+  scale: 1.1;
+}
+
+.delete-button {
+  border: none;
+  border-radius: 200px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-button:hover {
+  scale: 1.1;
+}
+
+.back-button {
+  border: none;
+  border-radius: 200px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-button {
+    border: none;
+    border-radius: 200px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-button:hover {
+  scale: 1.1;
+}
+
+.cancel-button {
+  background: #fff;
+  color: #FBB117;
+  border: 2px solid #FBB117;
+  border-radius: 50px; /* Pill shape */
+  margin-left: 1rem;
+  font-weight: 700;
+  box-shadow: none;
+  transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+  background: #fffbe7;
+  color: #e09e0e;
+  border-color: #e09e0e;
+}
+
+/* ==========================================================================
+   Form Elements
+   ========================================================================== */
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.submit-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: red;
+}
+
+.slider-value {
+  margin-left: 1em;
+}
+
+.image-upload-preview {
+  max-width: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+}
+
+
+.friend-list:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Search input for friends */
+.friend-search {
+  width: 60%;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.home-search-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.friend-search:focus {
+  outline: none;
+  border-color: #FBB117;
+  box-shadow: 0 0 0 3px rgba(251, 177, 23, 0.2);
+}
+
+/* Friend link styling */
+.friend-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    margin-right: 1rem;
+}
+
+.friend-link:hover {
+    text-decoration: none;
+}
+
+/* Profile picture container */
+.friend-profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 1rem;
+    flex-shrink: 0;
+    border: 3px solid #e2e8f0;
+}
+
+.friend-list:hover .friend-profile-pic {
+    border-color: #FBB117;
+}
+
+.user-detail-profile-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Username styling */
+.friend-username {
+    flex: 1;
+}
+
+.friend-username p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    transition: color 0.3s ease;
+}
+
+.friend-link:hover .friend-username p {
+    color: #FBB117;
+}
+
+/* Button styling */
+.add-friend-button,
+.remove-friend-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin: 1rem auto;
+}
+
+.add-friend-button {
+    background: linear-gradient(135deg, #FBB117, #FFA500);
+    color: white;
+}
+
+.add-friend-button:hover {
+    background: linear-gradient(135deg, #FFA500, #F59E00);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(251, 177, 23, 0.3);
+}
+
+.remove-friend-button {
+    background: linear-gradient(135deg, #e53e3e, #c53030);
+    color: white;
+}
+
+.remove-friend-button:hover {
+    background: linear-gradient(135deg, #c53030, #9c2626);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
+
+/* Loading and error states */
+.friend-page div p {
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 2rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .friend-page {
+        padding: 1rem;
+    }
+
+    .friend-page h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .friend-list {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .friend-link {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+        justify-content: center;
+    }
+
+    .friend-profile-pic {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .add-friend-button,
+    .remove-friend-button {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+/* Animation for new items */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.friend-list {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Focus states for accessibility */
+.friend-link:focus,
+.add-friend-button:focus,
+.remove-friend-button:focus {
+    outline: 2px solid #FBB117;
+    outline-offset: 2px;
+}
+
+/* Empty state styling */
+.friend-page ul:empty::after {
+    content: "No users found. Try refreshing the page.";
+    display: block;
+    text-align: center;
+    padding: 3rem;
+    color: #a0aec0;
+    font-style: italic;
+}
+
+/* Login Page Custom Styles */
+.login-hero, .userform-hero {
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.login-hero {
+    padding: 100px 0 0 0;
+}
+
+.userform-hero {
+    padding: 60px 0 0 0;
+}
+
+.userform-p {
+    font-size: 1rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.login-hero-content, .userform-hero-content {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 2rem;
+    background: #FBB117;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    padding: 0.5rem;
+    max-width: 700px;
+    margin: 0;
+    padding-right: 100px;
+}
+
+.login-text-section, .userform-text-section {
+    text-align: left;
+    min-width: 220px;
+}
+
+.login-title, .userform-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+}
+
+.login-subtitle {
+    font-size: 1rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.login-card, .userform-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 1.2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-form, .userform-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.login-error, .userform-error {
+    background: #ffe0e0;
+    color: #b00020;
+    border-radius: 6px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.login-form-group, .userform-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.login-label, .userform-label {
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 0.2rem;
+}
+
+.login-input, .userform-input {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border 0.2s;
+}
+.login-input:focus, .userform-input:focus {
+    border: 1.5px solid #FBB117;
+}
+
+.login-form-actions, .userform-form-actions {
+    margin-top: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.login-btn, .userform-btn {
+    background: #FBB117;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 0;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.login-btn:hover, .userform-btn:hover {
+    background: #e09e0e;
+}
+
+.login-btn-outline, .userform-btn-outline {
+    background: #fff;
+    color: #FBB117;
+    border: 2px solid #FBB117;
+    border-radius: 6px;
+    padding: 0.6rem 0;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.login-btn-outline:hover, .userform-btn-outline:hover {
+    background: #fffbe7;
+    color: #e09e0e;
+    border-color: #e09e0e;
+}
+
+.login-divider {
+    text-align: center;
+    color: #bbb;
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.login-divider:before, .login-divider:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #eee;
+}
+
+@media (max-width: 700px) {
+    .login-hero-content, .userform-hero-content {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+    .login-card, .userform-card {
+        width: 100%;
+        min-width: 0;
+    }
+    .login-text-section, .userform-text-section {
+        text-align: center;
+    }
+}
+
+/* User Detail Flex Layout */
+.user-detail-flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    min-height: 350px;
+    margin: 3rem 0 2rem 0;
+}
+
+.user-detail-pic-col {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-detail-profile-pic-large {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+
+.user-detail-info-col {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 320px;
+    max-width: 420px;
+}
+
+.user-detail-info-list {
+    width: 100%;
+}
+
+.user-detail-info-item {
+    margin-bottom: 1.2rem;
+}
+
+.user-detail-label {
+    display: block;
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.01em;
+}
+
+.user-detail-value {
+    display: block;
+    font-size: 2rem;
+    color: #111;
+    font-weight: 400;
+    word-break: break-all;
+}
+
+.user-detail-username-large {
+    font-size: 2.3rem;
+    font-weight: 600;
+    color: #222;
+}
+
+/* Enhanced pill-shaped edit button */
+.user-detail-edit-btn {
+    width: 60%;
+    min-width: 180px;
+    background: linear-gradient(135deg, #FBB117, #e09e0e);
+    color: #222;
+    border: none;
+    border-radius: 50px; /* Pill shape */
+    padding: 0.8em 2em;
+    font-size: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+    box-shadow: 0 4px 12px rgba(251, 177, 23, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-detail-edit-btn:hover {
+    background: linear-gradient(135deg, #e09e0e, #c8850c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(251, 177, 23, 0.4);
+}
+
+/* Custom dropdown styling */
+.add-review-input[type="date"],
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: white;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FBB117' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding: 0.8rem 2.5rem 0.8rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: #333;
+    font-weight: 500;
+}
+
+.add-review-input[type="date"]:focus,
+select:focus {
+    border-color: #FBB117;
+    box-shadow: 0 0 0 3px rgba(251, 177, 23, 0.1);
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e09e0e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+/* Date input specific styling */
+.add-review-input[type="date"] {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FBB117' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
+}
+
+/* Orange theme for calendar picker */
+.add-review-input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+/* Webkit date input styling */
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+input[type="date"] {
+    padding: 0;
+    color: #333;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper { 
+    padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-text { 
+    color: #FBB117;
+    padding: 0 0.3em;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+    color: #333;
+    font-weight: 500;
+}
+
+/* Firefox specific styling */
+input[type="date"] {
+    position: relative;
+    padding: 0.8rem 1rem;
+}
+
+input[type="date"] {
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* General date input styling for all browsers */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: #333;
+    font-weight: 500;
+}
+
+input[type="date"]:focus {
+    border-color: #FBB117;
+    box-shadow: 0 0 0 3px rgba(251, 177, 23, 0.1);
+}
+
+@media (max-width: 900px) {
+    .user-detail-flex {
+        flex-direction: column;
+        gap: 2rem;
+        min-height: unset;
+    }
+    .user-detail-profile-pic-large {
+        width: 220px;
+        height: 220px;
+    }
+    .user-detail-info-col {
+        min-width: 0;
+        max-width: 98vw;
+        align-items: center;
+    }
+    .user-detail-edit-btn {
+        width: 100%;
+        font-size: 1.3rem;
+        padding: 0.7em 2em;
+    }
+    .user-detail-value {
+        font-size: 1.3rem;
+    }
+    .user-detail-username-large {
+        font-size: 1.5rem;
+    }
+}
+
+/* User Detail Icon Buttons */
+.user-detail-actions-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.user-detail-icon-btn {
+    background: linear-gradient(135deg, #FBB117, #e09e0e);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(251, 177, 23, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.user-detail-icon-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.user-detail-icon-btn:hover {
+    background: linear-gradient(135deg, #e09e0e, #c8850c);
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(251, 177, 23, 0.4);
+}
+
+.user-detail-icon-btn img {
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+}
+
+@media (max-width: 900px) {
+    .user-detail-actions-row {
+        justify-content: center;
+    }
+}
+
+.add-review-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 2rem 1.5rem;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto;
+}
+
+.add-review-title {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #FBB117;
+    margin-bottom: 0.5rem;
+}
+
+.add-review-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.add-review-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.add-review-label {
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 0.2rem;
+}
+
+.add-review-input,
+.add-review-textarea {
+    padding: 0.8rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.add-review-input:focus,
+.add-review-textarea:focus {
+    border-color: #FBB117;
+    box-shadow: 0 0 0 3px rgba(251, 177, 23, 0.1);
+}
+
+/* Centered form actions with pill buttons */
+.add-review-form-actions {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.add-review-btn {
+    background: linear-gradient(135deg, #FBB117, #e09e0e);
+    color: #fff;
+    border: none;
+    border-radius: 50px; /* Pill shape */
+    padding: 0.9rem 2.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 160px;
+    box-shadow: 0 4px 12px rgba(251, 177, 23, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.add-review-btn:hover {
+    background: linear-gradient(135deg, #e09e0e, #c8850c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(251, 177, 23, 0.4);
+}
+
+/* Cancel button styling */
+.add-review-btn.cancel {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.add-review-btn.cancel:hover {
+    background: linear-gradient(135deg, #5a6268, #495057);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+/* Smaller button for detect city */
+.add-review-btn.small {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    min-width: 120px;
+    border-radius: 25px;
+}
+
+/* Larger button for submit/update */
+.add-review-btn.large {
+    padding: 1.2rem 3rem;
+    font-size: 1.3rem;
+    min-width: 200px;
+    border-radius: 60px;
+}
+
+/* Users List Page Styles */
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.users-header h2 {
+    font-size: 2rem;
+    color: #333;
+    margin: 0;
+}
+
+.users-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.users-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.user-item {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.user-item a {
+    text-decoration: none;
+    color: #333;
+    padding: 20px;
+    display: block;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.user-email {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.user-date {
+    color: #888;
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+.cheers-button {
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.cheers-button:hover {
+    transform: scale(1.1);
+} 
+
+.logout-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background-color: #ff3333;
+}
+
+.add-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.add-btn:hover {
+    background-color: #45a049;
+}
+
+/* Responsive styles for users list */
+@media (max-width: 768px) {
+    .users-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .users-list {
+        grid-template-columns: 1fr;
+    }
+
+    .users-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+
+/* ==========================================================================
+   Comments Section Styles (moved below review card)
+   ========================================================================== */
+.comments-section {
+  width: calc(100% - 32px);
+  max-width: 1000px;
+  margin: 8px auto 24px auto;
+  padding: 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.comments-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.comments-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+    width: 90%;
+}
+
+.comment-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e7e7e7;
+  border-radius: 12px;
+  font-size: 1rem;
+  outline: none;
+  resize: vertical;
+  min-height: 72px;
+}
+
+.comment-textarea:focus {
+  border-color: #FBB117;
+  box-shadow: 0 0 0 3px rgba(251, 177, 23, 0.12);
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: left;
+}
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment-card {
+  background: #fffdf9;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.comment-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.comment-card-body {
+  margin-top: 6px;
+}
+
+.comment-card strong {
+  color: #333;
+}
+
+.comment-date {
+  margin-left: 8px;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.comment-login-hint,
+.no-comments {
+  opacity: 0.8;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .comments-section {
+    margin: 8px 12px 24px 12px;
+    padding: 12px;
+  }
+}
+
+
+/* ==========================================================================
+   Design tokens (added for uniform styling)
+   ========================================================================== */
+:root {
+  --color-primary: #FBB117;
+  --color-primary-hover: #e09f12;
+  --color-text: #213547;
+  --color-text-inverse: #ffffff;
+  --color-bg: #ffffff;
+  --radius-base: 20px; /* match existing card radius */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
