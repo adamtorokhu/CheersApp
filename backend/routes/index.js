@@ -66,11 +66,18 @@ router.post('/login', async (req, res) => {
             const cookieOptions = {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                // In production use strict; in development use lax for same-origin via proxy
+                // Allow cross-site cookies in production (frontend hosted on a different domain)
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 maxAge: 3600000, // 1 hour
                 path: '/'
             };
+
+            // Only set domain if both frontend and backend are on the same parent domain
+            // Example: api.yourdomain.com and app.yourdomain.com can share .yourdomain.com
+            // DO NOT set domain if backend is on a different domain (e.g., backend on render.com)
+            if (process.env.COOKIE_DOMAIN) {
+                cookieOptions.domain = process.env.COOKIE_DOMAIN;
+            }
 
             // In development, don't set secure flag (served over http)
             if (process.env.NODE_ENV !== 'production') {
@@ -83,7 +90,8 @@ router.post('/login', async (req, res) => {
                 httpOnly: cookieOptions.httpOnly,
                 sameSite: cookieOptions.sameSite,
                 secure: cookieOptions.secure,
-                path: cookieOptions.path
+                path: cookieOptions.path,
+                domain: cookieOptions.domain || 'not set (will use request domain)'
             });
 
             res.json({
@@ -125,8 +133,9 @@ router.post('/logout', authenticateJWT, (req, res) => {
     const cookieOptions = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-        path: '/'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/',
+        ...(process.env.COOKIE_DOMAIN && { domain: process.env.COOKIE_DOMAIN })
     };
 
     // In development, don't set secure flag (localhost served over http)
