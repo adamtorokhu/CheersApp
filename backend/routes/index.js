@@ -134,9 +134,12 @@ router.post('/logout', authenticateJWT, (req, res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        path: '/',
-        ...(process.env.COOKIE_DOMAIN && { domain: process.env.COOKIE_DOMAIN })
+        path: '/'
     };
+
+    if (process.env.COOKIE_DOMAIN) {
+        cookieOptions.domain = process.env.COOKIE_DOMAIN;
+    }
 
     // In development, don't set secure flag (localhost served over http)
     if (process.env.NODE_ENV !== 'production') {
