@@ -57,7 +57,8 @@ const defaultAllowedOrigins = [
     'http://127.0.0.1:5173',
     'https://cheersapp.onrender.com',
     'https://cheersapp-frontend.onrender.com',
-    'https://cheersapp.adamtorok.dev'  // Custom domain
+    'https://cheersapp.adamtorok.dev',
+    'https://api.adamtorok.dev'  // Backend custom domain
 ];
 // Allowlist from env (comma-separated). Example:
 // CORS_ORIGINS="https://your-frontend.example.com,https://your-app.netlify.app"
