@@ -36,7 +36,7 @@ CheersApp is a full-stack social review application where users can share and ra
 
 ## 📋 Prerequisites
 
-- Node.js (v14 or higher)
+- Node.js (v18 or higher)
 - MongoDB (local installation or MongoDB Atlas account)
 - npm or yarn package manager
 
