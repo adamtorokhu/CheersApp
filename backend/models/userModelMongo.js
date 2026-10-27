@@ -2,6 +2,15 @@ const mongodb = require('../services/mongodb');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 
+const normalizeEmail = (email) => {
+    if (typeof email !== 'string' || !email.trim()) {
+        const error = new Error('A valid email is required');
+        error.code = 'INVALID_EMAIL';
+        throw error;
+    }
+    return email.trim().toLowerCase();
+};
+
 // Get users collection
 const getUsersCollection = () => {
     const db = mongodb.getDb();
@@ -37,11 +46,22 @@ const updateUser = async (userData) => {
     try {
         const collection = getUsersCollection();
         const userId = mongodb.toObjectId(userData.user_id);
+        const email = normalizeEmail(userData.email);
+
+        const existingUser = await collection.findOne({
+            email,
+            _id: { $ne: userId }
+        });
+        if (existingUser) {
+            const error = new Error('An account with this email already exists');
+            error.code = 'EMAIL_EXISTS';
+            throw error;
+        }
         
         // Create update object
         const updateData = {
             username: userData.username,
-            email: userData.email,
+            email,
             dateOfBirth: new Date(userData.dateofbirth)
         };
         
@@ -77,11 +97,19 @@ const updateUser = async (userData) => {
 const addUser = async (userData) => {
     try {
         const collection = getUsersCollection();
+        const email = normalizeEmail(userData.email);
+
+        const existingUser = await collection.findOne({ email });
+        if (existingUser) {
+            const error = new Error('An account with this email already exists');
+            error.code = 'EMAIL_EXISTS';
+            throw error;
+        }
         
         // Create user object
         const newUser = {
             username: userData.username,
-            email: userData.email,
+            email,
             dateOfBirth: new Date(userData.dateofbirth),
             passwordHash: await bcrypt.hash(userData.password, 10),
             friends: []

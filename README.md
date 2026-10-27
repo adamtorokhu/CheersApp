@@ -32,12 +32,14 @@ CheersApp is a full-stack social review application where users can share and ra
 - **JWT** - Authentication tokens
 - **bcrypt** - Password hashing
 - **Multer** - File upload handling
+- **Cloudinary** - Persistent online image storage
 - **CORS** - Cross-origin resource sharing
 
 ## 📋 Prerequisites
 
 - Node.js (v18 or higher)
 - MongoDB (local installation or MongoDB Atlas account)
+- Cloudinary account for profile and review images
 - npm or yarn package manager
 
 ## 🚀 Installation & Setup
@@ -68,6 +70,9 @@ PORT=3000
 MONGODB_URI=mongodb://localhost:27017/cheersapp
 ACCESS_TOKEN_SECRET=your_jwt_secret_key_here
 NODE_ENV=development
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 # Optional: Set COOKIE_DOMAIN only if frontend and backend share the same parent domain
 # COOKIE_DOMAIN=.yourdomain.com
 ```
@@ -87,7 +92,7 @@ npm install
 
 **Frontend `.env` file (optional):**
 ```env
-VITE_API_URL=http://localhost:3000
+VITE_API_BASE_URL=http://localhost:3000
 ```
 
 ## 🏃 Running the Application
@@ -214,20 +219,22 @@ The application supports image uploads for:
 - User profile pictures
 - Review images
 
-Images are stored in Cloudinary and the returned HTTPS URLs are saved in MongoDB. This is required for production deployments because Render's local filesystem is ephemeral.
+New images are uploaded to Cloudinary and the returned HTTPS URLs are saved in MongoDB. This is required for production deployments because Render's local filesystem is ephemeral. Existing images that were uploaded before Cloudinary was configured remain local and must be uploaded again to migrate them.
 
-To configure image storage:
-1. Create a free Cloudinary account at [cloudinary.com](https://cloudinary.com/).
-2. In the Cloudinary dashboard, copy the cloud name, API key, and API secret.
-3. Add these environment variables to the backend locally and in the Render service:
-   ```text
+### Cloudinary setup
+
+1. Create a free account at [cloudinary.com](https://cloudinary.com/).
+2. Open the Cloudinary dashboard and copy the cloud name, API key, and API secret.
+3. Add the following variables to `backend/.env` for local development:
+   ```env
    CLOUDINARY_CLOUD_NAME=your_cloud_name
    CLOUDINARY_API_KEY=your_api_key
    CLOUDINARY_API_SECRET=your_api_secret
    ```
-4. Redeploy the backend. New profile and review images will be uploaded to Cloudinary and visible to all users.
+4. Add the same variables under **Render → Backend Service → Environment**. Do not commit the API secret to Git.
+5. Redeploy the backend. New profile and review images will then be available to every user through their Cloudinary HTTPS URLs.
 
-Uploads are validated to accept JPEG, PNG, GIF, and WebP images up to 10 MB.
+Uploads accept JPEG, PNG, GIF, and WebP images up to 10 MB. If the Cloudinary variables are missing, the upload endpoint returns an error instead of storing an image only on the server disk.
 
 ## 🧪 Testing
 

@@ -32,6 +32,7 @@ async function connect() {
 
         // Get the database
         db = client.db(dbName);
+        await db.collection('users').createIndex({ email: 1 }, { unique: true });
 
         console.log("Successfully connected to MongoDB!");
         return db;

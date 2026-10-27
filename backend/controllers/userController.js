@@ -70,6 +70,12 @@ async function createUser(req, res) {
         const user = await userModel.addUser(req.body);
         res.status(201).json(user);
     } catch (err) {
+        if (err.code === 'INVALID_EMAIL') {
+            return res.status(400).json({ message: err.message });
+        }
+        if (err.code === 'EMAIL_EXISTS' || err.code === 11000) {
+            return res.status(409).json({ message: 'An account with this email already exists' });
+        }
         res.status(500).json({ message: 'Failed to create user', error: err.message });
     }
 }
@@ -84,6 +90,9 @@ async function updateUser(req, res) {
         const user = await userModel.updateUser(userData);
         res.json(user);
     } catch (err) {
+        if (err.code === 'EMAIL_EXISTS' || err.code === 11000) {
+            return res.status(409).json({ message: 'An account with this email already exists' });
+        }
         res.status(500).json({ message: 'Failed to update user', error: err.message });
     }
 }

@@ -35,7 +35,8 @@ router.post('/login', async (req, res) => {
         console.log('Login attempt for:', email);
 
         const users = await userModel.getUsers();
-        const user = users.find(u => u.email === email);
+        const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+        const user = users.find(u => u.email?.trim().toLowerCase() === normalizedEmail);
 
         if (!user) {
             return res.status(401).json({ message: 'Invalid credentials' });
@@ -124,6 +125,12 @@ router.post('/users/new', async (req, res) => {
         });
     } catch (err) {
         console.error('Registration error:', err);
+        if (err.code === 'INVALID_EMAIL') {
+            return res.status(400).json({ message: err.message });
+        }
+        if (err.code === 'EMAIL_EXISTS' || err.code === 11000) {
+            return res.status(409).json({ message: 'An account with this email already exists' });
+        }
         res.status(500).json({ message: 'Failed to register user', error: err.message });
     }
 });
