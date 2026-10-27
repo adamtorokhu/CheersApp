@@ -8,8 +8,8 @@ const port = process.env.PORT || 3000;
 app.set('trust proxy', 1);
 const mongodb = require('./services/mongodb');
 const multer  = require('multer');
+const cloudinary = require('cloudinary').v2;
 const path = require('path');
-const fs = require('fs');
 
 // Connect to MongoDB
 mongodb.connect()
@@ -20,36 +20,56 @@ mongodb.connect()
     });
 //-------------------------------------------------------------
 
-// Setup upload directory
-const uploadDir = path.join(__dirname, 'public/uploads');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
 
-// Configure file storage with custom naming
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        const ext = path.extname(file.originalname);
-        const customName = req.body.filename;
-        const timestamp = Date.now();
-        cb(null, customName ? `${customName}_${timestamp}${ext}` : `${timestamp}_${file.originalname}`);
-    }
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 // Setup image upload with file type validation
 const upload = multer({ 
-    storage,
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
         // Accept images only
-        if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        if (!/^image\/(jpeg|png|gif|webp)$/.test(file.mimetype)) {
             return cb(new Error('Only image files are allowed!'), false);
         }
         cb(null, true);
     }
 });
+
+const uploadDir = path.join(__dirname, 'public/uploads');
+
+function isCloudinaryConfigured() {
+    return Boolean(
+        process.env.CLOUDINARY_CLOUD_NAME &&
+        process.env.CLOUDINARY_API_KEY &&
+        process.env.CLOUDINARY_API_SECRET
+    );
+}
+
+function uploadToCloudinary(file, filename) {
+    return new Promise((resolve, reject) => {
+        const safeFilename = filename
+            ? filename.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 100)
+            : undefined;
+        const stream = cloudinary.uploader.upload_stream({
+            folder: 'cheersapp',
+            resource_type: 'image',
+            public_id: safeFilename,
+            use_filename: !safeFilename,
+            unique_filename: true,
+            overwrite: false
+        }, (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+        });
+
+        stream.end(file.buffer);
+    });
+}
 
 // Configure CORS with security options
 const defaultAllowedOrigins = [
@@ -129,15 +149,26 @@ app.use(cookieParser());
 app.use('/uploads', express.static(uploadDir));
 
 // Handle file uploads and return URL
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/upload', upload.single('file'), async (req, res, next) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
     }
-    res.status(201).json({
-        message: 'File uploaded successfully',
-        url: `/uploads/${req.file.filename}`,
-        filename: req.file.filename
-    });
+    if (!isCloudinaryConfigured()) {
+        return res.status(503).json({
+            message: 'Image storage is not configured. Set the Cloudinary environment variables.'
+        });
+    }
+
+    try {
+        const result = await uploadToCloudinary(req.file, req.body.filename);
+        res.status(201).json({
+            message: 'File uploaded successfully',
+            url: result.secure_url,
+            filename: result.public_id
+        });
+    } catch (error) {
+        next(error);
+    }
 });
 
 // Route handlers

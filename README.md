@@ -214,7 +214,20 @@ The application supports image uploads for:
 - User profile pictures
 - Review images
 
-Images are stored in the `backend/public/uploads/` directory and validated to accept only jpg, jpeg, png, and gif formats.
+Images are stored in Cloudinary and the returned HTTPS URLs are saved in MongoDB. This is required for production deployments because Render's local filesystem is ephemeral.
+
+To configure image storage:
+1. Create a free Cloudinary account at [cloudinary.com](https://cloudinary.com/).
+2. In the Cloudinary dashboard, copy the cloud name, API key, and API secret.
+3. Add these environment variables to the backend locally and in the Render service:
+   ```text
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
+   ```
+4. Redeploy the backend. New profile and review images will be uploaded to Cloudinary and visible to all users.
+
+Uploads are validated to accept JPEG, PNG, GIF, and WebP images up to 10 MB.
 
 ## 🧪 Testing
 

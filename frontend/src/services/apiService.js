@@ -344,7 +344,7 @@ export async function uploadImage(file, filename) {
             // Keep backward compatibility: .url is the relative URL
             url: data.url,
             // Absolute URL constructed for immediate use if needed
-            absoluteUrl: `${API_BASE_URL}${data.url}`
+            absoluteUrl: buildImageUrl(data.url)
         };
     } catch (err) {
         console.error('Error in uploadImage:', err);
