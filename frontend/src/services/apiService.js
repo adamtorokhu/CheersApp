@@ -3,7 +3,7 @@
 // Prefer explicit env override (set in .env: VITE_API_BASE_URL="http://localhost:3000")
 // Use localhost for development, production URL for deployed frontend
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-    (import.meta.env.DEV ? 'http://localhost:3000' : 'https://api.adamtorok.dev');
+    (import.meta.env.DEV ? 'http://localhost:3000' : 'https://api.adamtorok.tech');
 
 
 export default API_BASE_URL;
